@@ -18,10 +18,10 @@ const CategoryPage = () => {
   const router = useRouter();
   const { query } = router;
 
-  // const menu = useSelector((state) => state.menuReducer) || [];
+  const menu = useSelector((state) => state.menuReducer) || [];
   const qrInfo = useSelector((state) => state.QrReducer);
 
-  const [menu, setMenu] = useState([]);
+  // const [menu, setMenu] = useState([]);
   const [category, setCategory] = useState([]);
   const [itemRows, setItemsRows] = useState([]);
 
@@ -41,7 +41,8 @@ const CategoryPage = () => {
       qrInfo.tableName
     ) {
       setLoading(true);
-      const menuResponse = await dispatch(fetchMenuAction(qrInfo.qrId));
+      dispatch(fetchMenuAction(qrInfo.qrId));
+      /* const menuResponse = await dispatch(fetchMenuAction(qrInfo.qrId));
       if (menuResponse.status) {
         setMenu(menuResponse.jsonData.menu);
         setLoading(false);
@@ -55,7 +56,7 @@ const CategoryPage = () => {
           setLoading(false);
           // console.log("menu something-wrong");
         }
-      }
+      } */
     }
   }, [qrInfo]);
 
