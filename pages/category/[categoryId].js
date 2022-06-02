@@ -18,9 +18,10 @@ const CategoryPage = () => {
   const router = useRouter();
   const { query } = router;
 
-  const menu = useSelector((state) => state.menuReducer) || [];
+  // const menu = useSelector((state) => state.menuReducer) || [];
   const qrInfo = useSelector((state) => state.QrReducer);
 
+  const [menu, setMenu] = useState([]);
   const [category, setCategory] = useState([]);
   const [itemRows, setItemsRows] = useState([]);
 
@@ -32,15 +33,29 @@ const CategoryPage = () => {
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (
       Object.keys(qrInfo).length !== 0 &&
       qrInfo.tableId &&
       qrInfo.qrId &&
       qrInfo.tableName
     ) {
-      dispatch(fetchMenuAction(qrInfo.qrId));
-      dispatch(fetchAppConfig(qrInfo.qrId));
+      setLoading(true);
+      const menuResponse = await dispatch(fetchMenuAction(qrInfo.qrId));
+      if (menuResponse.status) {
+        setMenu(menuResponse.jsonData.menu);
+        setLoading(false);
+      } else {
+        if (menuResponse.error.qrExpire) {
+          router.replace("/qr-expired");
+          setLoading(false);
+          // console.log("menu qrExpire");
+        } else {
+          router.replace("/something-wrong");
+          setLoading(false);
+          // console.log("menu something-wrong");
+        }
+      }
     }
   }, [qrInfo]);
 

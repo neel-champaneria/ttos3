@@ -54,19 +54,21 @@ export const fetchMenuAction = (qrId) => {
         payload: resp.jsonData.orderAheadDays,
       });
       dispatch({ type: APP_IS_LOADING, payload: false });
+      return resp;
     } else {
       dispatch({
         type: FETCH_MENU_FAIL,
         payload: resp,
       });
       dispatch({ type: APP_IS_LOADING, payload: false });
-      if (resp.error.qrExpire) {
+      /* if (resp.error.qrExpire) {
         window.location.replace("/qr-expired");
         // console.log("menu qrExpire");
       } else {
         window.location.replace("/something-wrong");
         // console.log("menu something-wrong");
-      }
+      } */
+      return resp;
     }
   };
 };
