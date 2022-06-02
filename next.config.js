@@ -13,7 +13,7 @@ const securityHeaders = [
 ];
 
 module.exports = {
-  exportTrailingSlash: true,
+  trailingSlash: true,
 };
 
 const path = require("path");
